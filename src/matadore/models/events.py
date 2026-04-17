@@ -11,7 +11,7 @@ class StreamEvent(BaseModel):
     """A single finding or status event emitted during ``stream=True`` mode.
 
     Attributes:
-        level: Severity label — ``"CRITICAL"``, ``"HIGH"``, ``"MEDIUM"``,
+        level: Severity label - ``"CRITICAL"``, ``"HIGH"``, ``"MEDIUM"``,
             ``"LOW"``, or ``"INFO"``.
         description: Human-readable description of what was found or observed.
         asset: The asset that triggered this event (URL, IP, file path, etc.).
@@ -30,7 +30,7 @@ class StreamEvent(BaseModel):
         """Stop the running engagement immediately.
 
         Safe to call from inside a ``for event in m.engage(..., stream=True)``
-        loop — the generator will stop after this event is yielded.
+        loop - the generator will stop after this event is yielded.
         """
         if self._halt_fn is not None:
             self._halt_fn()

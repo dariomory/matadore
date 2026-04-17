@@ -1,6 +1,6 @@
 """Pydantic models for individual security findings.
 
-Every :class:`Vulnerability` carries a mandatory :class:`Evidence` field —
+Every :class:`Vulnerability` carries a mandatory :class:`Evidence` field -
 the AI cannot assert a finding without a verifiable source reference (port
 response, code line, API payload, etc.).
 """
