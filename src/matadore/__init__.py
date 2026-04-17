@@ -10,13 +10,13 @@ Quick start::
     from matadore import Matadore
 
     # OpenAI
-    m = Matadore(model="gpt-4o", api_key="sk-...", scope_token="...")
+    m = Matadore(model="gpt-4o", api_key="sk-...")
 
     # Anthropic
-    m = Matadore(model="claude-opus-4-5", api_key="sk-ant-...", scope_token="...")
+    m = Matadore(model="claude-opus-4-5", api_key="sk-ant-...")
 
     # Local model - no data egress
-    m = Matadore(model="ollama/llama3", scope_token="...")
+    m = Matadore(model="ollama/llama3")
 
     report = m.engage("mydomain.com")
     print(report.summary())
@@ -27,11 +27,10 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-from matadore.auth import ScopeToken
 from matadore.llm import LLMClient
-from matadore.models import Report
+from matadore.models import Report  # noqa: F401  (re-exported for convenience)
 
-__all__ = ["Matadore", "ScopeToken"]
+__all__ = ["Matadore"]
 
 
 @dataclass
@@ -46,8 +45,6 @@ class Matadore:
         model: LiteLLM model string, e.g. ``"gpt-4o"``,
             ``"claude-opus-4-5"``, ``"gemini/gemini-2.0-flash"``,
             ``"ollama/llama3"``.
-        scope_token: Signed JWT proving authorization to scan the target.
-            Obtain one via :class:`~matadore.auth.ScopeToken`.
         api_key: API key for the chosen LLM provider.  Falls back to the
             standard environment variable for that provider
             (``OPENAI_API_KEY``, ``ANTHROPIC_API_KEY``, etc.) when omitted.
@@ -62,13 +59,11 @@ class Matadore:
         m = Matadore(
             model="gpt-4o",
             api_key="sk-...",
-            scope_token="signed_jwt_from_asset_owner",
         )
         report = m.engage("mydomain.com")
     """
 
     model: str
-    scope_token: str
     api_key: str | None = None
     base_url: str | None = None
     plugins: list[Any] = field(default_factory=list)

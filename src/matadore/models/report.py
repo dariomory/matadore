@@ -1,64 +1,17 @@
-"""Pydantic models for Matadore findings, attack paths, and reports.
-
-Every ``Vulnerability`` and ``AttackPath`` carries a mandatory
-:class:`Evidence` field - the AI cannot assert a finding without a verifiable
-source reference (port response, code line, API payload, etc.).
-"""
+"""Report and Brief models returned by an engagement."""
 
 from __future__ import annotations
 
-from pydantic import BaseModel
-
-
-class Evidence(BaseModel):
-    """Verifiable source reference for a finding.
-
-    Attributes:
-        source: Where the evidence came from (e.g. ``"nmap scan"``,
-            ``"git log a3f91c"``).
-        detail: The raw data that substantiates the finding (packet capture
-            excerpt, code snippet, API response body, etc.).
-    """
-
-    source: str
-    detail: str
-
-
-class Vulnerability(BaseModel):
-    """A single security finding with mandatory evidence.
-
-    Attributes:
-        id: Unique finding identifier, e.g. ``"CVE-2024-23897"``.
-        title: Short human-readable description.
-        severity: ``"critical"``, ``"high"``, ``"medium"``, ``"low"``,
-            or ``"info"``.
-        evidence: Verifiable source reference - never empty.
-        mitre_ttps: ATT&CK technique IDs applicable to this finding.
-    """
-
-    id: str
-    title: str
-    severity: str
-    evidence: Evidence
-    mitre_ttps: list[str] = []
-
-
-class AttackPath(BaseModel):
-    """A chained exploit sequence from initial access to impact.
-
-    Attributes:
-        narrative: Human-readable kill chain description.
-        evidence: Source data that substantiates every step in the chain.
-        mitre_ttps: Ordered ATT&CK technique IDs for each hop.
-    """
-
-    narrative: str
-    evidence: Evidence
-    mitre_ttps: list[str] = []
+from matadore.models.attack_path import AttackPath
+from matadore.models.audit import AuditLog
+from matadore.models.finding import Vulnerability
 
 
 class Brief:
     """Narrative red team report generated from a :class:`Report`."""
+
+    def __init__(self, text: str = "") -> None:
+        self._text = text
 
     def to_markdown(self) -> str:
         """Return the brief as a Markdown string."""
@@ -75,11 +28,13 @@ class Report:
     Attributes:
         surface: All exposed assets discovered during the engagement.
         vulnerabilities: Findings ranked by exploitability, with evidence.
+        _audit: Internal audit log for this engagement.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, engagement_id: str = "") -> None:
         self.surface: list[str] = []
         self.vulnerabilities: list[Vulnerability] = []
+        self._audit = AuditLog(engagement_id=engagement_id)
 
     def summary(self) -> str:
         """Return a one-paragraph executive summary of the engagement."""
@@ -119,7 +74,7 @@ class Report:
 
     def audit_log(self) -> str:
         """Return a tamper-evident chain of custody for this engagement."""
-        raise NotImplementedError
+        return self._audit.to_text()
 
     def assert_no_new_criticals(self) -> None:
         """Raise if new critical findings were discovered.
@@ -130,7 +85,7 @@ class Report:
         """
         raise NotImplementedError
 
-    def export(self, format: str, path: str | None = None) -> str:
+    def export(self, format: str, path: str | None = None) -> str:  # noqa: A002
         """Export the report to *format*.
 
         Args:
