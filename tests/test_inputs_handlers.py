@@ -2,7 +2,15 @@
 
 import pytest
 
-from matadore.inputs import REGISTRY, CloudInput, DockerRegistryInput, DomainInput, GitHubOrgInput, NetworkInput, RepoInput
+from matadore.inputs import (
+    REGISTRY,
+    CloudInput,
+    DockerRegistryInput,
+    DomainInput,
+    GitHubOrgInput,
+    NetworkInput,
+    RepoInput,
+)
 from matadore.inputs.base import EngageTarget
 
 
@@ -82,9 +90,7 @@ class TestGitHubOrgInput:
         assert GitHubOrgInput.target_type == "github_org"
 
     def test_dry_run_returns_asset(self):
-        assets = GitHubOrgInput().resolve(
-            EngageTarget(value="myorg", type="github_org", dry_run=True)
-        )
+        assets = GitHubOrgInput().resolve(EngageTarget(value="myorg", type="github_org", dry_run=True))
         assert assets[0].asset == "myorg"
         assert assets[0].asset_type == "github_org"
 
@@ -140,9 +146,7 @@ class TestDockerRegistryInput:
 
     def test_active_raises_not_implemented(self):
         with pytest.raises(NotImplementedError):
-            DockerRegistryInput().resolve(
-                EngageTarget(value="myorg/myimage", type="docker_registry")
-            )
+            DockerRegistryInput().resolve(EngageTarget(value="myorg/myimage", type="docker_registry"))
 
     def test_describe(self):
         t = EngageTarget(value="myorg/myimage", type="docker_registry")
@@ -166,5 +170,6 @@ class TestRegistry:
 
     def test_registry_instances_are_base_input_subclasses(self):
         from matadore.inputs.base import BaseInput
+
         for cls in REGISTRY.values():
             assert issubclass(cls, BaseInput)

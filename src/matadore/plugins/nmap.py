@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from matadore.models.finding import RawFinding
 from matadore.plugins.base import BasePlugin, PluginContext, PluginResult
 
 

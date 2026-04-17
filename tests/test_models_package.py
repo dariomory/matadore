@@ -16,8 +16,15 @@ from matadore.models import (
 
 def test_all_exports_importable():
     for name in [
-        "AttackPath", "AuditEntry", "AuditLog", "Brief",
-        "Evidence", "RawFinding", "Report", "StreamEvent", "Vulnerability",
+        "AttackPath",
+        "AuditEntry",
+        "AuditLog",
+        "Brief",
+        "Evidence",
+        "RawFinding",
+        "Report",
+        "StreamEvent",
+        "Vulnerability",
     ]:
         assert hasattr(models, name), f"models.{name} not found"
 

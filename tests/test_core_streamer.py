@@ -2,8 +2,6 @@
 
 import asyncio
 
-import pytest
-
 from matadore.core.streamer import SEVERITY_ORDER, Streamer
 from matadore.models.events import StreamEvent
 

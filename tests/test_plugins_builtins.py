@@ -112,5 +112,6 @@ class TestScoutSuite:
 class TestPluginsPackageImports:
     def test_all_builtins_importable(self):
         from matadore.plugins import BasePlugin, GitLeaks, Nmap, Nuclei, PluginContext, PluginResult, ScoutSuite, Trivy
+
         for cls in (BasePlugin, Nmap, Nuclei, Trivy, GitLeaks, ScoutSuite, PluginContext, PluginResult):
             assert cls is not None

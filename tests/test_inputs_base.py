@@ -74,6 +74,7 @@ class TestBaseInput:
 
     def test_async_resolve_delegates_to_sync(self):
         import asyncio
+
         inp = ConcreteInput()
         t = EngageTarget(value="example.com")
         assets = asyncio.run(inp.resolve_async(t))

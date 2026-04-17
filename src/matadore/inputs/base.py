@@ -21,7 +21,6 @@ import abc
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
-
 TARGET_TYPES = Literal[
     "domain",
     "network",
@@ -59,16 +58,10 @@ class EngageTarget:
     def __post_init__(self) -> None:
         valid = {"domain", "network", "repo", "github_org", "cloud", "docker_registry"}
         if self.type not in valid:
-            raise ValueError(
-                f"Unknown target type {self.type!r}. "
-                f"Must be one of: {', '.join(sorted(valid))}"
-            )
+            raise ValueError(f"Unknown target type {self.type!r}. Must be one of: {', '.join(sorted(valid))}")
         valid_modes = {"passive", "active", "stealth"}
         if self.mode not in valid_modes:
-            raise ValueError(
-                f"Unknown scan mode {self.mode!r}. "
-                f"Must be one of: {', '.join(sorted(valid_modes))}"
-            )
+            raise ValueError(f"Unknown scan mode {self.mode!r}. Must be one of: {', '.join(sorted(valid_modes))}")
 
 
 @dataclass

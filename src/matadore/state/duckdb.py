@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -53,12 +53,9 @@ class DuckDBStore(StateStore):
 
     def __init__(self, path: str | Path = ":memory:") -> None:
         try:
-            import duckdb  # noqa: PLC0415
+            import duckdb  # noqa: PLC0415  # type: ignore[import-untyped]
         except ImportError as exc:
-            raise ImportError(
-                "DuckDBStore requires the 'duckdb' package. "
-                "Install it with: pip install duckdb"
-            ) from exc
+            raise ImportError("DuckDBStore requires the 'duckdb' package. Install it with: pip install duckdb") from exc
 
         self._duckdb = duckdb
         self._conn = duckdb.connect(str(path))

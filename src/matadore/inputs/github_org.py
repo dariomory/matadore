@@ -28,7 +28,4 @@ class GitHubOrgInput(BaseInput):
         raise NotImplementedError
 
     def describe(self, target: EngageTarget) -> str:
-        return (
-            f"[GITHUB_ORG] Will enumerate public repos, secrets in history, "
-            f"exposed keys for: {target.value}"
-        )
+        return f"[GITHUB_ORG] Will enumerate public repos, secrets in history, exposed keys for: {target.value}"

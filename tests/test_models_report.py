@@ -37,9 +37,17 @@ class TestReport:
 
     def test_unimplemented_methods_raise(self):
         r = Report()
-        for method in ("summary", "attack_paths", "entry_points", "shadow_it",
-                        "what_would_they_hit_first", "brief", "mitre_mapping",
-                        "remediation_plan", "assert_no_new_criticals"):
+        for method in (
+            "summary",
+            "attack_paths",
+            "entry_points",
+            "shadow_it",
+            "what_would_they_hit_first",
+            "brief",
+            "mitre_mapping",
+            "remediation_plan",
+            "assert_no_new_criticals",
+        ):
             with pytest.raises(NotImplementedError):
                 getattr(r, method)()
 

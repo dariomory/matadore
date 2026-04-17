@@ -26,8 +26,7 @@ class CloudInput(BaseInput):
         provider = target.extra.get("provider", "aws")
         if provider not in SUPPORTED_PROVIDERS:
             raise ValueError(
-                f"Unsupported cloud provider {provider!r}. "
-                f"Must be one of: {', '.join(sorted(SUPPORTED_PROVIDERS))}"
+                f"Unsupported cloud provider {provider!r}. Must be one of: {', '.join(sorted(SUPPORTED_PROVIDERS))}"
             )
 
         if target.dry_run:
@@ -46,7 +45,4 @@ class CloudInput(BaseInput):
 
     def describe(self, target: EngageTarget) -> str:
         provider = target.extra.get("provider", "aws")
-        return (
-            f"[CLOUD] Will call read-only {provider.upper()} APIs "
-            f"(IAM, storage, compute) for: {target.value}"
-        )
+        return f"[CLOUD] Will call read-only {provider.upper()} APIs (IAM, storage, compute) for: {target.value}"

@@ -92,16 +92,12 @@ class EngagementPlan:
 
         rendered_lines.append("")
         rendered_lines.append(f"Total assets in scope: {self.total_assets}")
-        rendered_lines.append(
-            f"Estimated duration: {self.estimated_duration} ({self.target.mode} mode)"
-        )
+        rendered_lines.append(f"Estimated duration: {self.estimated_duration} ({self.target.mode} mode)")
 
         if self.plugins_active:
             rendered_lines.append(f"Plugins: {', '.join(self.plugins_active)}")
 
-        rendered_lines.append(
-            f"Run m.engage({self.target.value!r}) to proceed."
-        )
+        rendered_lines.append(f"Run m.engage({self.target.value!r}) to proceed.")
         return "\n".join(rendered_lines)
 
 
@@ -149,7 +145,12 @@ def build_plan(
     )
     try:
         assets = handler.resolve(dry_target)
-        asset_count = len(assets)
+        # Some handlers (e.g. NetworkInput) return one summary asset whose
+        # metadata contains the real host count -- prefer that when available.
+        if len(assets) == 1 and "host_count" in assets[0].metadata:
+            asset_count = assets[0].metadata["host_count"]
+        else:
+            asset_count = len(assets)
     except NotImplementedError:
         asset_count = 1
 

@@ -32,7 +32,7 @@ class WildcardPlugin(BasePlugin):
 class TestBasePlugin:
     def test_cannot_instantiate_abstract(self):
         with pytest.raises(TypeError):
-            BasePlugin()  # type: ignore[abstract]
+            BasePlugin()
 
     def test_concrete_plugin_runs(self):
         p = ConcretePlugin()
@@ -64,6 +64,7 @@ class TestBasePlugin:
 
     def test_async_run_delegates_to_sync(self):
         import asyncio
+
         p = ConcretePlugin()
         ctx = PluginContext()
         result = asyncio.run(p.run_async("example.com", ctx))

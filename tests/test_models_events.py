@@ -19,11 +19,11 @@ class TestStreamEvent:
 
     def test_missing_level_raises(self):
         with pytest.raises(ValidationError):
-            StreamEvent(description="something")  # type: ignore[call-arg]
+            StreamEvent(description="something")  # type: ignore
 
     def test_missing_description_raises(self):
         with pytest.raises(ValidationError):
-            StreamEvent(level="HIGH")  # type: ignore[call-arg]
+            StreamEvent(level="HIGH")  # type: ignore
 
     def test_halt_without_fn_is_noop(self):
         e = StreamEvent(level="HIGH", description="SSH key found.")

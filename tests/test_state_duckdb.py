@@ -4,8 +4,8 @@ import pytest
 
 duckdb = pytest.importorskip("duckdb", reason="duckdb not installed")
 
-from matadore.state.duckdb import DuckDBStore
-from matadore.state.store import AssetSnapshot, StateStore
+from matadore.state.duckdb import DuckDBStore  # noqa: E402
+from matadore.state.store import AssetSnapshot, StateStore  # noqa: E402
 
 
 def make_store() -> DuckDBStore:
@@ -78,6 +78,7 @@ class TestDuckDBStore:
 class TestDuckDBImportError:
     def test_import_error_message(self, monkeypatch):
         import sys
+
         monkeypatch.setitem(sys.modules, "duckdb", None)  # type: ignore[arg-type]
         with pytest.raises(ImportError, match="pip install duckdb"):
             DuckDBStore(path=":memory:")

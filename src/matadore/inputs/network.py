@@ -44,9 +44,6 @@ class NetworkInput(BaseInput):
         try:
             network = ipaddress.ip_network(target.value, strict=False)
             hosts = list(network.hosts())
-            return (
-                f"[NETWORK] Will probe {len(hosts)} hosts in {target.value} "
-                f"(skipping .0/broadcast)"
-            )
+            return f"[NETWORK] Will probe {len(hosts)} hosts in {target.value} (skipping .0/broadcast)"
         except ValueError:
             return f"[NETWORK] Will probe: {target.value}"

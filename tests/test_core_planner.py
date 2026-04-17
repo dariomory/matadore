@@ -1,11 +1,8 @@
 """Unit tests for matadore.core.planner."""
 
-import pytest
-
-from matadore.core.planner import EngagementPlan, PlanLine, build_plan, _SECS_PER_ASSET
+from matadore.core.planner import _SECS_PER_ASSET, EngagementPlan, PlanLine, build_plan
 from matadore.inputs.base import EngageTarget
-from matadore.plugins import Nmap, Nuclei, GitLeaks
-from matadore.plugins.base import PluginContext, PluginResult
+from matadore.plugins import GitLeaks, Nmap, Nuclei
 
 
 class TestPlanLine:
@@ -19,10 +16,10 @@ class TestPlanLine:
 
 
 class TestEngagementPlan:
-    def _make_plan(self, mode: str = "active", asset_counts: list[int] = None) -> EngagementPlan:
+    def _make_plan(self, mode: str = "active", asset_counts: list[int] | None = None) -> EngagementPlan:
         target = EngageTarget(value="example.com", mode=mode, dry_run=True)
         plan = EngagementPlan(target=target)
-        for count in (asset_counts or [10]):
+        for count in asset_counts or [10]:
             plan.lines.append(PlanLine(tag="DOMAIN", description="desc", asset_count=count))
         return plan
 
@@ -39,8 +36,6 @@ class TestEngagementPlan:
         assert "8" in plan.estimated_duration
 
     def test_estimated_duration_passive_is_faster(self):
-        plan_active = self._make_plan(mode="active", asset_counts=[10])
-        plan_passive = self._make_plan(mode="passive", asset_counts=[10])
         active_secs = 10 * _SECS_PER_ASSET["active"]
         passive_secs = 10 * _SECS_PER_ASSET["passive"]
         assert passive_secs < active_secs

@@ -1,7 +1,5 @@
 """Unit tests for the abstract StateStore interface (via SQLiteStore)."""
 
-import pytest
-
 from matadore.state.sqlite import SQLiteStore
 from matadore.state.store import AssetSnapshot, StateStore
 

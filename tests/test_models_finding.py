@@ -14,11 +14,11 @@ class TestEvidence:
 
     def test_missing_source_raises(self):
         with pytest.raises(ValidationError):
-            Evidence(detail="some detail")  # type: ignore[call-arg]
+            Evidence(detail="some detail")  # type: ignore
 
     def test_missing_detail_raises(self):
         with pytest.raises(ValidationError):
-            Evidence(source="nmap scan")  # type: ignore[call-arg]
+            Evidence(source="nmap scan")  # type: ignore
 
     def test_serialises_to_dict(self):
         e = Evidence(source="api response", detail="{}")
@@ -35,7 +35,7 @@ class TestRawFinding:
 
     def test_missing_field_raises(self):
         with pytest.raises(ValidationError):
-            RawFinding(plugin="nmap", asset="192.168.1.1")  # type: ignore[call-arg]
+            RawFinding(plugin="nmap", asset="192.168.1.1")  # type: ignore
 
     def test_serialises_to_dict(self):
         rf = RawFinding(plugin="trivy", asset="myorg/myimage", raw="CVE-2024-1234")
@@ -74,7 +74,7 @@ class TestVulnerability:
 
     def test_evidence_is_required(self):
         with pytest.raises(ValidationError):
-            Vulnerability(id="CVE-X", title="X", severity="low")  # type: ignore[call-arg]
+            Vulnerability(id="CVE-X", title="X", severity="low")  # type: ignore
 
     def test_evidence_nested_access(self):
         v = Vulnerability(

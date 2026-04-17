@@ -30,7 +30,7 @@ class TestAttackPath:
 
     def test_evidence_required(self):
         with pytest.raises(ValidationError):
-            AttackPath(narrative="some narrative")  # type: ignore[call-arg]
+            AttackPath(narrative="some narrative")  # type: ignore
 
     def test_serialises_to_dict(self):
         ap = AttackPath(narrative="Kill chain.", evidence=_evidence())

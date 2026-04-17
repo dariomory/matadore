@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from pydantic import BaseModel, Field
 
@@ -21,7 +21,7 @@ class AuditEntry(BaseModel):
         checksum: SHA-256 of the entry fields for tamper detection.
     """
 
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(UTC))
     action: str
     actor: str
     target: str
@@ -40,9 +40,7 @@ class AuditEntry(BaseModel):
                 },
                 sort_keys=True,
             )
-            object.__setattr__(
-                self, "checksum", hashlib.sha256(payload.encode()).hexdigest()
-            )
+            object.__setattr__(self, "checksum", hashlib.sha256(payload.encode()).hexdigest())
 
 
 class AuditLog(BaseModel):
@@ -64,9 +62,7 @@ class AuditLog(BaseModel):
         """Return a human-readable audit trail."""
         lines = [f"Engagement: {self.engagement_id}", ""]
         for e in self.entries:
-            lines.append(
-                f"[{e.timestamp.isoformat()}] {e.action} | {e.actor} → {e.target}"
-            )
+            lines.append(f"[{e.timestamp.isoformat()}] {e.action} | {e.actor} → {e.target}")
             if e.detail:
                 lines.append(f"  {e.detail}")
             lines.append(f"  checksum: {e.checksum}")

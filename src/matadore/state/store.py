@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import abc
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 
@@ -34,7 +34,7 @@ class AssetSnapshot:
     engagement_id: str
     asset: str
     asset_type: str
-    scanned_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    scanned_at: datetime = field(default_factory=lambda: datetime.now(UTC))
     checksum: str = ""
     raw: str = ""
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -105,7 +105,7 @@ class StateStore(abc.ABC):
             return True
         return snapshot.checksum != stored.checksum
 
-    def close(self) -> None:
+    def close(self) -> None:  # noqa: B027
         """Release any held resources (connections, file handles, etc.).
 
         The default implementation is a no-op.  Override in backends that

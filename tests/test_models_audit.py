@@ -1,8 +1,5 @@
 """Unit tests for matadore.models.audit."""
 
-import hashlib
-import json
-
 from matadore.models.audit import AuditEntry, AuditLog
 
 

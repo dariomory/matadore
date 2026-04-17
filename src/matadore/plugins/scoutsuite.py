@@ -20,9 +20,6 @@ class ScoutSuite(BasePlugin):
                 plugin=self.name,
                 target=target,
                 skipped=True,
-                skip_reason=(
-                    "dry_run=True - scoutsuite will call read-only cloud APIs for: "
-                    + target
-                ),
+                skip_reason=("dry_run=True - scoutsuite will call read-only cloud APIs for: " + target),
             )
         raise NotImplementedError

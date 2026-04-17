@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
 
-from pydantic import BaseModel
+from pydantic import BaseModel, PrivateAttr
 
 
 class StreamEvent(BaseModel):
@@ -15,7 +15,7 @@ class StreamEvent(BaseModel):
             ``"LOW"``, or ``"INFO"``.
         description: Human-readable description of what was found or observed.
         asset: The asset that triggered this event (URL, IP, file path, etc.).
-        _halt: Internal callable to stop the engagement early.
+        _halt_fn: Internal callable to stop the engagement early.
     """
 
     level: str
@@ -24,7 +24,7 @@ class StreamEvent(BaseModel):
 
     model_config = {"arbitrary_types_allowed": True}
 
-    _halt_fn: Callable[[], None] | None = None
+    _halt_fn: Callable[[], None] | None = PrivateAttr(default=None)
 
     def halt(self) -> None:
         """Stop the running engagement immediately.
