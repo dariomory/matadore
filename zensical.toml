@@ -7,6 +7,7 @@ nav = [
   { "Home" = "index.md" },
   { "Installation" = "installation.md" },
   { "Usage" = "usage.md" },
+  { "Architecture" = "architecture.md" },
   { "Domain Models" = "models.md" },
   { "API Reference" = "api.md" },
 ]
